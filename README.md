@@ -1,0 +1,1 @@
+# conflict-duplication-detector
