@@ -145,6 +145,111 @@ asyncio.run(chat())
 
 ## Architecture
 
+### System Flow Diagram
+
+```mermaid
+flowchart TB
+    subgraph Input["📄 User Input"]
+        DOC["Documents<br/>(DOCX, PDF, HTML)"]
+        QUERY["Queries & Commands"]
+    end
+
+    subgraph Processing["⚙️ Document Processing"]
+        LOADER["Document Loader<br/>• Text extraction<br/>• Chunking"]
+    end
+
+    subgraph Agent["🤖 AutoGen Agent"]
+        ASSISTANT["Assistant Agent<br/>(Conflict Detector)"]
+        TOOLS["Agent Tools<br/>• analyze_document<br/>• search_knowledge<br/>• check_conflicts<br/>• find_duplications"]
+    end
+
+    subgraph Analysis["🔍 Analysis Engine"]
+        DUP["Duplication<br/>Detector"]
+        CONF["Conflict<br/>Detector"]
+        INCON["Inconsistency<br/>Detector"]
+    end
+
+    subgraph Storage["🗄️ ChromaDB"]
+        EMBED[("Vector Store<br/>Embeddings")]
+        META[("Metadata<br/>Store")]
+    end
+
+    subgraph OpenAI["☁️ OpenAI API"]
+        EMB_API["Embeddings API<br/>(text-embedding-3-small)"]
+        CHAT_API["Chat API<br/>(GPT-4o)"]
+    end
+
+    subgraph Output["📊 Output"]
+        REPORT["Analysis Report<br/>• Duplications<br/>• Conflicts<br/>• Inconsistencies"]
+    end
+
+    DOC --> LOADER
+    LOADER --> EMBED
+    LOADER --> EMB_API
+    EMB_API --> EMBED
+
+    QUERY --> ASSISTANT
+    ASSISTANT --> TOOLS
+    TOOLS --> DUP
+    TOOLS --> CONF
+    TOOLS --> INCON
+
+    DUP --> EMBED
+    CONF --> EMBED
+    CONF --> CHAT_API
+    INCON --> EMBED
+    INCON --> CHAT_API
+
+    EMBED --> META
+    
+    DUP --> REPORT
+    CONF --> REPORT
+    INCON --> REPORT
+
+    style Input fill:#e1f5fe
+    style Agent fill:#fff3e0
+    style Storage fill:#e8f5e9
+    style OpenAI fill:#fce4ec
+    style Output fill:#f3e5f5
+```
+
+### Data Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant CLI as CLI/API
+    participant A as AutoGen Agent
+    participant L as Document Loader
+    participant V as Vector Store
+    participant O as OpenAI
+    participant D as Detectors
+
+    U->>CLI: Upload document
+    CLI->>L: Parse document
+    L->>L: Extract text & chunk
+    L->>O: Generate embeddings
+    O-->>L: Return vectors
+    L->>V: Store chunks + vectors
+    V-->>CLI: Confirm stored
+
+    U->>CLI: Analyze new document
+    CLI->>A: Invoke agent
+    A->>L: Load & chunk document
+    L->>O: Generate embeddings
+    O-->>L: Return vectors
+    A->>D: Run analysis
+    D->>V: Query similar chunks
+    V-->>D: Return matches
+    D->>O: Analyze conflicts (LLM)
+    O-->>D: Return analysis
+    D-->>A: Return results
+    A-->>CLI: Format report
+    CLI-->>U: Display findings
+```
+
+### Project Structure
+
 ```
 conflict-duplication-detector/
 ├── src/
