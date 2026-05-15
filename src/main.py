@@ -125,7 +125,7 @@ def analyse(
             conflict_table.add_row(
                 conflict.severity.value.upper(),
                 conflict.conflict_type,
-                conflict.description[:60] + "..." if len(conflict.description) > 60 else conflict.description,
+                conflict.description,
                 f"{conflict.confidence:.0%}",
             )
 
@@ -141,7 +141,7 @@ def analyse(
         for inc in result.inconsistencies[:10]:
             inc_table.add_row(
                 inc.inconsistency_type.value,
-                inc.description[:60] + "..." if len(inc.description) > 60 else inc.description,
+                inc.description,
                 f"{inc.confidence:.0%}",
             )
 
@@ -349,7 +349,7 @@ def conflicts(
             table.add_row(
                 conflict.severity.value.upper(),
                 conflict.conflict_type,
-                conflict.description[:60] + "..." if len(conflict.description) > 60 else conflict.description,
+                conflict.description,
                 f"{conflict.confidence:.0%}",
             )
 
