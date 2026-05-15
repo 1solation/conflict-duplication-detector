@@ -12,6 +12,53 @@ An intelligent document analysis agent built with Microsoft AutoGen and OpenAI t
 - **Interactive Agent**: Chat interface powered by Microsoft AutoGen
 - **CLI Interface**: Full command-line interface for batch processing
 
+## Tech Stack
+
+### Agent Framework
+
+| Package | Description |
+|---------|-------------|
+| [Microsoft AutoGen](https://microsoft.github.io/autogen/) | Multi-agent conversation framework for building LLM applications. Provides `AssistantAgent` for orchestrating document analysis with tool-calling capabilities. |
+| [autogen-agentchat](https://pypi.org/project/autogen-agentchat/) | High-level agent chat API for conversational AI workflows |
+| [autogen-ext](https://pypi.org/project/autogen-ext/) | Extensions including OpenAI model client integration |
+
+### LLM & Embeddings
+
+| Package | Description |
+|---------|-------------|
+| [OpenAI](https://platform.openai.com/docs) | GPT-4o for conflict analysis and reasoning, text-embedding-3-small for semantic embeddings |
+| [tiktoken](https://github.com/openai/tiktoken) | Fast BPE tokenizer for token counting and text splitting |
+
+### Vector Database
+
+| Package | Description |
+|---------|-------------|
+| [ChromaDB](https://www.trychroma.com/) | Open-source embedding database for semantic search. Stores document chunks with vector embeddings for similarity-based retrieval. |
+
+### Document Processing
+
+| Package | Description |
+|---------|-------------|
+| [PyMuPDF (fitz)](https://pymupdf.readthedocs.io/) | High-performance PDF text extraction with layout preservation |
+| [python-docx](https://python-docx.readthedocs.io/) | Microsoft Word (.docx) document parsing |
+| [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/) | HTML/XML parsing and text extraction |
+| [lxml](https://lxml.de/) | Fast XML/HTML processing backend |
+
+### CLI & UI
+
+| Package | Description |
+|---------|-------------|
+| [Typer](https://typer.tiangolo.com/) | Modern CLI framework built on Click with automatic help generation |
+| [Rich](https://rich.readthedocs.io/) | Beautiful terminal formatting with tables, progress bars, and syntax highlighting |
+
+### Utilities
+
+| Package | Description |
+|---------|-------------|
+| [Pydantic](https://docs.pydantic.dev/) | Data validation and settings management |
+| [python-dotenv](https://pypi.org/project/python-dotenv/) | Environment variable loading from `.env` files |
+| [NLTK](https://www.nltk.org/) | Natural language processing utilities |
+
 ## Installation
 
 ### Prerequisites
