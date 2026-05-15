@@ -70,7 +70,7 @@ class Conflict:
 
 CONFLICT_ANALYSIS_PROMPT = """You are an expert document analyst specializing in identifying conflicts and contradictions in guidance documents.
 
-Analyze the following two text passages and determine if there are any conflicts, contradictions, or inconsistencies between them.
+Analyse the following two text passages and determine if there are any conflicts, contradictions, or inconsistencies between them.
 
 PASSAGE A (from {source_a}):
 {content_a}
@@ -78,7 +78,7 @@ PASSAGE A (from {source_a}):
 PASSAGE B (from {source_b}):
 {content_b}
 
-Analyze these passages for:
+Analyse these passages for:
 1. Direct contradictions (opposite statements about the same topic)
 2. Numerical discrepancies (different numbers, dates, percentages)
 3. Procedural conflicts (different steps or sequences for the same process)
@@ -127,7 +127,7 @@ class ConflictDetector:
     ) -> list[Conflict]:
         """Detect conflicts between chunks and the knowledge base."""
         conflicts = []
-        analyzed_pairs = set()
+        analysed_pairs = set()
 
         for chunk in chunks:
             similar_chunks = self.vector_store.find_similar_chunks(
@@ -142,11 +142,11 @@ class ConflictDetector:
 
             for candidate in candidates:
                 pair_key = tuple(sorted([chunk.chunk_id, candidate.chunk_id]))
-                if pair_key in analyzed_pairs:
+                if pair_key in analysed_pairs:
                     continue
-                analyzed_pairs.add(pair_key)
+                analysed_pairs.add(pair_key)
 
-                conflict = self._analyze_conflict(chunk, candidate)
+                conflict = self._analyse_conflict(chunk, candidate)
                 if conflict and conflict.confidence >= self.confidence_threshold:
                     conflicts.append(conflict)
 
@@ -159,12 +159,12 @@ class ConflictDetector:
 
         return conflicts
 
-    def _analyze_conflict(
+    def _analyse_conflict(
         self,
         chunk_a: DocumentChunk,
         chunk_b: SearchResult,
     ) -> Optional[Conflict]:
-        """Use LLM to analyze potential conflict between two chunks."""
+        """Use LLM to analyse potential conflict between two chunks."""
         prompt = CONFLICT_ANALYSIS_PROMPT.format(
             source_a=chunk_a.source_file,
             content_a=chunk_a.content,
@@ -207,7 +207,7 @@ class ConflictDetector:
             )
 
         except Exception as e:
-            print(f"Warning: Failed to analyze conflict: {e}")
+            print(f"Warning: Failed to analyse conflict: {e}")
             return None
 
     def get_conflict_summary(self, conflicts: list[Conflict]) -> dict:

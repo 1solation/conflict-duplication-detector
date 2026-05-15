@@ -56,7 +56,7 @@ class Inconsistency:
 
 INCONSISTENCY_ANALYSIS_PROMPT = """You are an expert document analyst specializing in identifying inconsistencies in guidance documents.
 
-Analyze the following set of related passages from different documents and identify any inconsistencies.
+Analyse the following set of related passages from different documents and identify any inconsistencies.
 
 PASSAGES:
 {passages}
@@ -121,7 +121,7 @@ class InconsistencyDetector:
         if len(search_results) < 2:
             return []
 
-        return self._analyze_inconsistencies(search_results)
+        return self._analyse_inconsistencies(search_results)
 
     def detect_inconsistencies_for_chunks(
         self,
@@ -141,13 +141,13 @@ class InconsistencyDetector:
             for chunk in chunks
         ]
 
-        return self._analyze_chunk_list(chunk_dicts)
+        return self._analyse_chunk_list(chunk_dicts)
 
-    def _analyze_inconsistencies(
+    def _analyse_inconsistencies(
         self,
         search_results: list,
     ) -> list[Inconsistency]:
-        """Analyze search results for inconsistencies."""
+        """Analyse search results for inconsistencies."""
         chunk_dicts = [
             {
                 "content": result.content,
@@ -158,13 +158,13 @@ class InconsistencyDetector:
             for result in search_results
         ]
 
-        return self._analyze_chunk_list(chunk_dicts)
+        return self._analyse_chunk_list(chunk_dicts)
 
-    def _analyze_chunk_list(
+    def _analyse_chunk_list(
         self,
         chunk_dicts: list[dict],
     ) -> list[Inconsistency]:
-        """Use LLM to analyze chunks for inconsistencies."""
+        """Use LLM to analyse chunks for inconsistencies."""
         passages_text = ""
         for i, chunk in enumerate(chunk_dicts):
             passages_text += f"\n[Passage {i}] From: {chunk['source_file']}"
@@ -227,7 +227,7 @@ class InconsistencyDetector:
             return inconsistencies
 
         except Exception as e:
-            print(f"Warning: Failed to analyze inconsistencies: {e}")
+            print(f"Warning: Failed to analyse inconsistencies: {e}")
             return []
 
     def get_inconsistency_summary(

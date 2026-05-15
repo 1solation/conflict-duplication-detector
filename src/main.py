@@ -41,8 +41,8 @@ def get_agent(
 
 
 @app.command()
-def analyze(
-    file_path: str = typer.Argument(..., help="Path to the document to analyze"),
+def analyse(
+    file_path: str = typer.Argument(..., help="Path to the document to analyse"),
     persist_dir: Optional[str] = typer.Option(
         None, "--persist-dir", "-d", help="ChromaDB persistence directory"
     ),
@@ -53,7 +53,7 @@ def analyze(
         False, "--json", "-j", help="Output results as JSON"
     ),
 ):
-    """Analyze a document for conflicts, duplications, and inconsistencies."""
+    """Analyse a document for conflicts, duplications, and inconsistencies."""
     path = Path(file_path)
     if not path.exists():
         console.print(f"[red]Error: File not found: {file_path}[/red]")
@@ -68,7 +68,7 @@ def analyze(
 
         try:
             agent = get_agent(persist_dir, collection)
-            result = agent.analyze_document_sync(str(path))
+            result = agent.analyse_document_sync(str(path))
         except Exception as e:
             console.print(f"[red]Error: {e}[/red]")
             raise typer.Exit(1)
@@ -394,7 +394,7 @@ def chat(
     console.print(Panel(
         "[bold]Conflict Detection Agent[/bold]\n\n"
         "Commands:\n"
-        "  /analyze <file>  - Analyze a document\n"
+        "  /analyse <file>  - Analyse a document\n"
         "  /add <path>      - Add to knowledge base\n"
         "  /search <query>  - Search knowledge base\n"
         "  /quit            - Exit chat\n\n"

@@ -42,7 +42,7 @@ class AnalysisResult:
 AGENT_SYSTEM_MESSAGE = """You are an expert document analysis agent specialized in detecting conflicts, duplications, and inconsistencies in guidance documents.
 
 You have access to the following tools:
-1. analyze_document - Analyze a document for conflicts, duplications, and inconsistencies against the knowledge base
+1. analyse_document - Analyse a document for conflicts, duplications, and inconsistencies against the knowledge base
 2. add_to_knowledge - Add a document to the knowledge base
 3. search_knowledge - Search the knowledge base for relevant content
 4. find_duplications - Find duplications across the knowledge base
@@ -111,10 +111,10 @@ class ConflictDetectorAgent:
     def _create_tools(self) -> list[Callable]:
         """Create tool functions for the agent."""
 
-        async def analyze_document(file_path: str) -> str:
-            """Analyze a document for conflicts, duplications, and inconsistencies."""
+        async def analyse_document(file_path: str) -> str:
+            """Analyse a document for conflicts, duplications, and inconsistencies."""
             try:
-                result = self.analyze_document_sync(file_path)
+                result = self.analyse_document_sync(file_path)
                 return json.dumps(result.to_dict(), indent=2)
             except Exception as e:
                 return json.dumps({"error": str(e)})
@@ -207,7 +207,7 @@ class ConflictDetectorAgent:
                 return json.dumps({"error": str(e)})
 
         return [
-            analyze_document,
+            analyse_document,
             add_to_knowledge,
             search_knowledge,
             find_duplications,
@@ -226,8 +226,8 @@ class ConflictDetectorAgent:
             )
         return self._agent
 
-    def analyze_document_sync(self, file_path: str) -> AnalysisResult:
-        """Synchronously analyze a document."""
+    def analyse_document_sync(self, file_path: str) -> AnalysisResult:
+        """Synchronously analyse a document."""
         path = Path(file_path)
         if not path.exists():
             raise FileNotFoundError(f"Document not found: {file_path}")
@@ -270,9 +270,9 @@ class ConflictDetectorAgent:
             summary=summary,
         )
 
-    async def analyze_document_async(self, file_path: str) -> AnalysisResult:
-        """Asynchronously analyze a document."""
-        return await asyncio.to_thread(self.analyze_document_sync, file_path)
+    async def analyse_document_async(self, file_path: str) -> AnalysisResult:
+        """Asynchronously analyse a document."""
+        return await asyncio.to_thread(self.analyse_document_sync, file_path)
 
     async def run(self, task: str) -> str:
         """Run the agent with a specific task."""

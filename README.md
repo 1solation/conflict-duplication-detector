@@ -52,13 +52,13 @@ cp .env.example .env
 
 ### CLI Commands
 
-#### Analyze a Document
+#### Analyse a Document
 
-Analyze a document for conflicts, duplications, and inconsistencies against the knowledge base:
+Analyse a document for conflicts, duplications, and inconsistencies against the knowledge base:
 
 ```bash
-python -m src.main analyze path/to/document.pdf
-python -m src.main analyze path/to/document.docx --json  # Output as JSON
+python -m src.main analyse path/to/document.pdf
+python -m src.main analyse path/to/document.docx --json  # Output as JSON
 ```
 
 #### Add Documents to Knowledge Base
@@ -124,8 +124,8 @@ agent = ConflictDetectorAgent(
 result = agent.add_knowledge_directory("./documents")
 print(f"Added {result['chunks_added']} chunks")
 
-# Analyze a document
-analysis = agent.analyze_document_sync("./new_document.pdf")
+# Analyse a document
+analysis = agent.analyse_document_sync("./new_document.pdf")
 print(f"Found {len(analysis.duplications)} duplications")
 print(f"Found {len(analysis.conflicts)} conflicts")
 print(f"Found {len(analysis.inconsistencies)} inconsistencies")
@@ -160,7 +160,7 @@ flowchart TB
 
     subgraph Agent["🤖 AutoGen Agent"]
         ASSISTANT["Assistant Agent<br/>(Conflict Detector)"]
-        TOOLS["Agent Tools<br/>• analyze_document<br/>• search_knowledge<br/>• check_conflicts<br/>• find_duplications"]
+        TOOLS["Agent Tools<br/>• analyse_document<br/>• search_knowledge<br/>• check_conflicts<br/>• find_duplications"]
     end
 
     subgraph Analysis["🔍 Analysis Engine"]
@@ -201,7 +201,7 @@ flowchart TB
     INCON --> CHAT_API
 
     EMBED --> META
-    
+
     DUP --> REPORT
     CONF --> REPORT
     INCON --> REPORT
@@ -233,7 +233,7 @@ sequenceDiagram
     L->>V: Store chunks + vectors
     V-->>CLI: Confirm stored
 
-    U->>CLI: Analyze new document
+    U->>CLI: Analyse new document
     CLI->>A: Invoke agent
     A->>L: Load & chunk document
     L->>O: Generate embeddings
@@ -241,7 +241,7 @@ sequenceDiagram
     A->>D: Run analysis
     D->>V: Query similar chunks
     V-->>D: Return matches
-    D->>O: Analyze conflicts (LLM)
+    D->>O: Analyse conflicts (LLM)
     O-->>D: Return analysis
     D-->>A: Return results
     A-->>CLI: Format report
